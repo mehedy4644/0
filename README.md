@@ -1,7 +1,7 @@
-## Wi-Fi Hack
+## Wi-Fi Hack by Ꮇᴇͥʜͣᴇͫᴅƴ
 ### Using Termux! (Requires Root)
 
-<p align="center"><img src="https://i.ibb.co/K74g0SC/hulu.jpg"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/mehedy4644/0/main/0.png"></p>
 
 ### Installation :
 
@@ -10,4 +10,4 @@ pkg update -y && apt-get upgrade -y -o Dpkg::Options::="--force-confold" && pkg 
 ```
 
 ### Note: 
-**" ⚠ Do not attack the same Wi-Fi network twice !**
+**"⚠ Do not attack the same Wi-Fi network twice !**
