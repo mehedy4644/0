@@ -10,4 +10,4 @@ pkg update -y && apt-get upgrade -y -o Dpkg::Options::="--force-confold" && pkg 
 ```
 
 ### Note: 
-** ⚠ Do not attack the same Wi-Fi network twice !**
+**" ⚠ Do not attack the same Wi-Fi network twice !**
