@@ -1,7 +1,7 @@
 ## Wi-Fi Hack by Ꮇᴇͥʜͣᴇͫᴅƴ
 ### Using Termux! (Requires Root)
 
-<p align="center"><img src="https://raw.githubusercontent.com/mehedy4644/0/main/0.png"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/mehedy4644/1/main/0.png"></p>
 
 ### Installation :
 
