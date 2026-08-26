@@ -81,6 +81,5 @@ echo -e "\n${GREEN}[✓] Local setup complete!${RESET}"
 
 
 echo -e "\n\033[1;31m  [!] IMPORTANT — If '0' shows:\033[0m"
-echo -e "\n\033[1;36m══════════════════════════════════════════════\033[0m"
+
 echo -e "\033[1;32m  [✓] All done! Type '0' to get started.\033[0m"
-echo -e "\033[1;36m══════════════════════════════════════════════\033[0m\n"

@@ -15,7 +15,7 @@ pkg install git tsu python wpa-supplicant pixiewps iw -y
 # Check directory and clone
 if [ ! -d "0" ] && [ ! -f "0.py" ]; then
     echo -e "${GREEN}[+] Cloning 0 repository...${RESET}"
-    git clone https://github.com/freefireob49v2/0
+    git clone https://github.com/mehedy4644/0
     cd 0 || exit
 elif [ -d "0" ]; then
     cd 0 || exit
@@ -98,6 +98,4 @@ echo -e "${YELLOW}[✓] You don't even need to restart Termux.${RESET}"
 
 echo -e "\n\033[1;31m  [!] IMPORTANT — If '0' shows:\033[0m"
 
-echo -e "\n\033[1;36m══════════════════════════════════════════════\033[0m"
 echo -e "\033[1;32m  [✓] All done! Type '0' to get started.\033[0m"
-echo -e "\033[1;36m══════════════════════════════════════════════\033[0m\n"
