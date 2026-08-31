@@ -567,14 +567,13 @@ class Companion:
     def __credentialPrint(self, wps_pin=None, wpa_psk=None, essid=None):
         print(f"[+] WPS PIN: '{wps_pin}'")
         print()
-        print("\033[92m [✓] Wi-Fi HACK SUCCESSFUL !\033[0m")
+        print("\033[1;96m [✓] Wi-Fi HACKED BY Ꮇᴇͥʜͣᴇͫᴅƴ !\033[0m")
         print()
         name = essid
         password = wpa_psk
         width = max(len(name), len(password))
-        print(f" [✓] Wi-Fi NAME :  \033[1;96m{name:^{width}}\033[0m")
-        print()
-        print(f" [✓] PASSWORD   :  \033[1;96m{password:^{width}}\033[0m")
+        print(f"\033[92m [✓] Wi-Fi NAME :\033[0m  \033[92m{name:^{width}}\033[0m")
+        print(f"\033[92m [✓] PASSWORD   :\033[0m  \033[1;96m{password:^{width}}\033[0m")
         print()
 
     def __saveResult(self, bssid, essid, wps_pin, wpa_psk):
