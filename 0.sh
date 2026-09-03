@@ -44,11 +44,6 @@ if [ "\$1" == "update" ]; then
 
     chmod +x 0.py
 
-    echo -e "\033[1;32m[+] Re-applying 0 command setup...\033[0m"
-    ZERO_BIN_INNER="$BIN_DIR/0"
-    SCRIPT_DIR_INNER="$SCRIPT_DIR"
-    bash 1.sh > /dev/null 2>&1
-
     echo -e "\033[1;32m[✓] 0 updated successfully!\033[0m"
     exit 0
 fi
@@ -98,4 +93,4 @@ echo -e "${YELLOW}[✓] You don't even need to restart Termux.${RESET}"
 
 echo -e "\n\033[1;31m  [!] IMPORTANT — If '0' shows:\033[0m"
 
-echo -e "\033[1;32m  [✓] All done! Type '0' to get started.\033[0m"
+echo -e "\033[1;32m  [✓] All done! Type '0' to get started.${RESET}"
