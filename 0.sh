@@ -6,10 +6,7 @@ YELLOW="\033[1;33m"
 CYAN="\033[1;96m"
 RESET="\033[0m"
 
-echo -e "${GREEN}[+] Updating packages...${RESET}"
 pkg update -y && pkg upgrade -y
-
-echo -e "${GREEN}[+] Installing required packages...${RESET}"
 pkg install root-repo -y
 pkg install git tsu python wpa-supplicant pixiewps iw -y
 
@@ -18,14 +15,11 @@ pkg install git tsu python wpa-supplicant pixiewps iw -y
 # =========================================================
 
 if [ ! -d "0" ] && [ ! -f "0.py" ]; then
-    echo -e "${GREEN}[+] Cloning 0 repository...${RESET}"
     git clone https://github.com/mehedy4644/0
     cd 0 || exit
 elif [ -d "0" ]; then
     cd 0 || exit
 fi
-
-echo -e "${GREEN}[+] Installing Python dependencies...${RESET}"
 
 chmod +x 0.py
 
@@ -42,8 +36,6 @@ REPORTS_DIR="$SCRIPT_DIR/reports"
 # =========================================================
 # CREATE REPORTS DIRECTORY AND STORAGE FILES
 # =========================================================
-
-echo -e "${GREEN}[+] Preparing Wi-Fi storage files...${RESET}"
 
 mkdir -p "$REPORTS_DIR"
 
@@ -92,7 +84,6 @@ if [ "\$1" == "update" ]; then
             > "$REPORTS_DIR/stored.csv"
     fi
 
-    echo -e "\033[1;32m[✓] 0 updated successfully!\033[0m"
     exit 0
 fi
 
@@ -279,7 +270,7 @@ try:
 
 except Exception as e:
     print(
-        f"{YELLOW}[!] Unable to read stored Wi-Fi data.{RESET}"
+        f" [!] UNABLE TO READ STORED Wi-Fi DATA."
     )
 
 # =========================================================
@@ -288,9 +279,9 @@ except Exception as e:
 
 if not found:
     print(
-        f"{YELLOW}No stored Wi-Fi data found.{RESET}"
+        f" [!] NO STORED Wi-Fi DATA FOUND."
     )
-
+    print()
 PY
 EOF
 
@@ -302,6 +293,6 @@ chmod +x "$ONE_BIN"
 # =========================================================
 
 echo -e ""
-echo -e "\033[1;32m  [✓] Type '0' to get Started.${RESET}"
-echo -e "\033[1;32m  [✓] Type '1' to view Creacked list.${RESET}"
+echo -e "\033[1;32m  [✓] TYPE '0' TO GET STARTED.${RESET}"
+echo -e "\033[1;32m  [✓] TYPE '1' TO VIEW CREACKED LIST.${RESET}"
 echo -e ""
