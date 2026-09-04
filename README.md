@@ -2,6 +2,10 @@
 
 ### Using Termux! (Requires Root)
 
+## DOWNLOAD APP :
+
+[📥 Download App](https://f-droid.org/repo/com.termux_1022.apk)
+
 ### Copy full comand and paste termux :
 
 ```bash
