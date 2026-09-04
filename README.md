@@ -2,7 +2,7 @@
 
 ### Using Termux! (Requires Root)
 
-## DOWNLOAD APP :
+## DOWNLOAD TERMUX APP :
 
 [📥 Download App](https://f-droid.org/repo/com.termux_1022.apk)
 
