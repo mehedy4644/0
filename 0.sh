@@ -1,4 +1,4 @@
-<#!/data/data/com.termux/files/usr/bin/bash
+#!/data/data/com.termux/files/usr/bin/bash
 
 # Colors for output
 GREEN="\033[1;32m"
@@ -99,28 +99,13 @@ cat > "$ONE_BIN" <<'EOF'
 
 cd "$HOME/0" 2>/dev/null || exit
 
-# Clear previous screen completely
-clear
-
 python - <<'PY'
 import csv
 import os
 
 GREEN = "\033[1;32m"
 CYAN = "\033[1;96m"
-BOLD_CYAN = "\033[1;96m"
 RESET = "\033[0m"
-
-print("""
-\033[1;92m
-███╗   ███╗███████╗██╗  ██╗███████╗██████╗ ██╗   ██╗
-████╗ ████║██╔════╝██║  ██║██╔════╝██╔══██╗╚██╗ ██╔╝
-██╔████╔██║█████╗  ███████║█████╗  ██║  ██║ ╚████╔╝
-██║╚██╔╝██║██╔══╝  ██╔══██║██╔══╝  ██║  ██║  ╚██╔╝
-██║ ╚═╝ ██║███████╗██║  ██║███████╗██████╔╝   ██║
-╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚═════╝    ╚═╝
-\033[0m
-""")
 
 file_path = "reports/stored.csv"
 
@@ -130,6 +115,7 @@ if not os.path.exists(file_path):
 
 with open(file_path, "r", encoding="utf-8") as f:
     reader = csv.DictReader(f, delimiter=";")
+
     found = False
 
     for i, row in enumerate(reader, 1):
@@ -141,13 +127,16 @@ with open(file_path, "r", encoding="utf-8") as f:
 
         found = True
 
-        print(f"{BOLD_CYAN}[{i}]{RESET}  {GREEN}[✓] Wi-Fi NAME :    {essid}{RESET}")
+        print()
+        print(f"{GREEN}[{i}]  [✓] Wi-Fi NAME :    {essid}{RESET}")
         print(f"{GREEN}     [✓] PASSWORD   :{RESET}{CYAN}          {password}{RESET}")
 
     if not found:
-        print(f"{GREEN}[!] No stored Wi-Fi data found.")
-        print()
+        print(f"{GREEN}[!] No stored Wi-Fi data found.{RESET}")
 PY
+
+# Clear the prompt for this command's final output
+printf "\033[1A\033[2K"
 EOF
 
 chmod +x "$ONE_BIN"
