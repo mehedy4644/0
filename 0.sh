@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/bash
+<#!/data/data/com.termux/files/usr/bin/bash
 
 # Colors for output
 GREEN="\033[1;32m"
@@ -22,7 +22,6 @@ elif [ -d "0" ]; then
 fi
 
 echo -e "${GREEN}[+] Installing Python dependencies...${RESET}"
-
 
 chmod +x 0.py
 
@@ -87,6 +86,72 @@ fi
 EOF
 
 chmod +x "$ZERO_BIN"
+
+
+# ============================================================
+# Setup '1' command
+# ============================================================
+
+ONE_BIN="$BIN_DIR/1"
+
+cat > "$ONE_BIN" <<'EOF'
+#!/data/data/com.termux/files/usr/bin/bash
+
+cd "$HOME/0" 2>/dev/null || exit
+
+# Clear previous screen completely
+clear
+
+python - <<'PY'
+import csv
+import os
+
+GREEN = "\033[1;32m"
+CYAN = "\033[1;96m"
+BOLD_CYAN = "\033[1;96m"
+RESET = "\033[0m"
+
+print("""
+\033[1;92m
+███╗   ███╗███████╗██╗  ██╗███████╗██████╗ ██╗   ██╗
+████╗ ████║██╔════╝██║  ██║██╔════╝██╔══██╗╚██╗ ██╔╝
+██╔████╔██║█████╗  ███████║█████╗  ██║  ██║ ╚████╔╝
+██║╚██╔╝██║██╔══╝  ██╔══██║██╔══╝  ██║  ██║  ╚██╔╝
+██║ ╚═╝ ██║███████╗██║  ██║███████╗██████╔╝   ██║
+╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚═════╝    ╚═╝
+\033[0m
+""")
+
+file_path = "reports/stored.csv"
+
+if not os.path.exists(file_path):
+    print(f"{GREEN}[!] No stored Wi-Fi data found.{RESET}")
+    raise SystemExit
+
+with open(file_path, "r", encoding="utf-8") as f:
+    reader = csv.DictReader(f, delimiter=";")
+    found = False
+
+    for i, row in enumerate(reader, 1):
+        essid = row.get("ESSID", "").strip()
+        password = row.get("WPA PSK", "").strip()
+
+        if not essid and not password:
+            continue
+
+        found = True
+
+        print(f"{BOLD_CYAN}[{i}]{RESET}  {GREEN}[✓] Wi-Fi NAME :    {essid}{RESET}")
+        print(f"{GREEN}     [✓] PASSWORD   :{RESET}{CYAN}          {password}{RESET}")
+
+    if not found:
+        print(f"{GREEN}[!] No stored Wi-Fi data found.")
+        print()
+PY
+EOF
+
+chmod +x "$ONE_BIN"
+
 
 echo -e "\n${GREEN}[✓] Setup complete successfully!${RESET}"
 echo -e "${YELLOW}[✓] You don't even need to restart Termux.${RESET}"
