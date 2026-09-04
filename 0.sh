@@ -1,8 +1,9 @@
 #!/data/data/com.termux/files/usr/bin/bash
 
-# Colors for output
+# Colors
 GREEN="\033[1;32m"
 YELLOW="\033[1;33m"
+CYAN="\033[1;96m"
 RESET="\033[0m"
 
 echo -e "${GREEN}[+] Updating packages...${RESET}"
@@ -12,7 +13,10 @@ echo -e "${GREEN}[+] Installing required packages...${RESET}"
 pkg install root-repo -y
 pkg install git tsu python wpa-supplicant pixiewps iw -y
 
-# Check directory and clone
+# =========================================================
+# CHECK DIRECTORY AND CLONE
+# =========================================================
+
 if [ ! -d "0" ] && [ ! -f "0.py" ]; then
     echo -e "${GREEN}[+] Cloning 0 repository...${RESET}"
     git clone https://github.com/mehedy4644/0
@@ -25,59 +29,128 @@ echo -e "${GREEN}[+] Installing Python dependencies...${RESET}"
 
 chmod +x 0.py
 
-echo -e "${GREEN}[+] Setting up '0' command...${RESET}"
+# =========================================================
+# PATHS
+# =========================================================
 
 BIN_DIR="$PREFIX/bin"
 ZERO_BIN="$BIN_DIR/0"
+ONE_BIN="$BIN_DIR/1"
 SCRIPT_DIR="$(pwd)"
+REPORTS_DIR="$SCRIPT_DIR/reports"
+
+# =========================================================
+# CREATE REPORTS DIRECTORY AND STORAGE FILES
+# =========================================================
+
+echo -e "${GREEN}[+] Preparing Wi-Fi storage files...${RESET}"
+
+mkdir -p "$REPORTS_DIR"
+
+# Create stored.txt if it does not exist
+if [ ! -f "$REPORTS_DIR/stored.txt" ]; then
+    touch "$REPORTS_DIR/stored.txt"
+fi
+
+# Create stored.csv if it does not exist
+if [ ! -f "$REPORTS_DIR/stored.csv" ]; then
+    printf '"Date";"BSSID";"ESSID";"WPS PIN";"WPA PSK"\n' \
+        > "$REPORTS_DIR/stored.csv"
+fi
+
+# =========================================================
+# 0 COMMAND
+# =========================================================
+
 
 cat > "$ZERO_BIN" <<EOF
 #!/data/data/com.termux/files/usr/bin/bash
+
 cd "$SCRIPT_DIR" || exit
 
-# Update Logic
+# =========================================================
+# UPDATE
+# =========================================================
+
 if [ "\$1" == "update" ]; then
     echo -e "\033[1;32m[+] Fetching latest updates from MSR's GitHub...\033[0m"
+
     git reset --hard HEAD > /dev/null 2>&1
     git pull origin main
 
     chmod +x 0.py
 
+    # Make sure storage files still exist
+    mkdir -p "$REPORTS_DIR"
+
+    if [ ! -f "$REPORTS_DIR/stored.txt" ]; then
+        touch "$REPORTS_DIR/stored.txt"
+    fi
+
+    if [ ! -f "$REPORTS_DIR/stored.csv" ]; then
+        printf '"Date";"BSSID";"ESSID";"WPS PIN";"WPA PSK"\n' \
+            > "$REPORTS_DIR/stored.csv"
+    fi
+
     echo -e "\033[1;32m[✓] 0 updated successfully!\033[0m"
     exit 0
 fi
 
-# Help Logic
+
+# =========================================================
+# HELP
+# =========================================================
+
 if [ "\$1" == "help" ]; then
     python help.py
     exit 0
 fi
 
-# Fix Logic
+
+# =========================================================
+# FIX
+# =========================================================
+
 if [ "\$1" == "fix" ]; then
     bash fix.sh
     exit 0
 fi
 
-# Contact Logic
+
+# =========================================================
+# CONTACT
+# =========================================================
+
 if [ "\$1" == "contact" ]; then
     python contact.py
     exit 0
 fi
 
-# Menu Logic
+
+# =========================================================
+# MENU
+# =========================================================
+
 if [ "\$1" == "menu" ]; then
     sudo python 0.py
     exit 0
 fi
 
-# Old Logic
+
+# =========================================================
+# OLD
+# =========================================================
+
 if [ "\$1" == "old" ]; then
     sudo python w1.py -i wlan0 -K
     exit 0
 fi
 
-# Run Logic
+
+# =========================================================
+# RUN
+# =========================================================
+
 if [ -z "\$1" ]; then
     sudo python 0.py -i wlan0 -K
 else
@@ -88,16 +161,17 @@ EOF
 chmod +x "$ZERO_BIN"
 
 
-# ============================================================
-# Setup '1' command
-# ============================================================
+# =========================================================
+# 1 COMMAND
+# =========================================================
 
-ONE_BIN="$BIN_DIR/1"
 
-cat > "$ONE_BIN" <<'EOF'
+cat > "$ONE_BIN" <<EOF
 #!/data/data/com.termux/files/usr/bin/bash
 
-cd "$HOME/0" 2>/dev/null || exit
+cd "$SCRIPT_DIR" || exit
+
+clear
 
 python - <<'PY'
 import csv
@@ -105,46 +179,129 @@ import os
 
 GREEN = "\033[1;32m"
 CYAN = "\033[1;96m"
+YELLOW = "\033[1;33m"
 RESET = "\033[0m"
 
-file_path = "reports/stored.csv"
+# =========================================================
+# BANNER
+# =========================================================
 
-if not os.path.exists(file_path):
-    print(f"{GREEN}[!] No stored Wi-Fi data found.{RESET}")
-    raise SystemExit
+print(GREEN + r"""
+ ███╗   ███╗███████╗██╗  ██╗███████╗██████╗ ██╗   ██╗
+ ████╗ ████║██╔════╝██║  ██║██╔════╝██╔══██╗╚██╗ ██╔╝
+ ██╔████╔██║█████╗  ███████║█████╗  ██║  ██║ ╚████╔╝
+ ██║╚██╔╝██║██╔══╝  ██╔══██║██╔══╝  ██║  ██║  ╚██╔╝
+ ██║ ╚═╝ ██║███████╗██║  ██║███████╗██████╔╝   ██║
+ ╚═╝     ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝╚═════╝    ╚═╝
+""" + RESET)
 
-with open(file_path, "r", encoding="utf-8") as f:
-    reader = csv.DictReader(f, delimiter=";")
+print()
 
-    found = False
+# =========================================================
+# STORAGE
+# =========================================================
 
-    for i, row in enumerate(reader, 1):
-        essid = row.get("ESSID", "").strip()
-        password = row.get("WPA PSK", "").strip()
+reports_dir = "reports"
+csv_file = os.path.join(reports_dir, "stored.csv")
+txt_file = os.path.join(reports_dir, "stored.txt")
 
-        if not essid and not password:
-            continue
+# Create reports directory
+os.makedirs(reports_dir, exist_ok=True)
 
-        found = True
+# Create stored.txt
+if not os.path.exists(txt_file):
+    open(txt_file, "w", encoding="utf-8").close()
 
-        print()
-        print(f"{GREEN}[{i}]  [✓] Wi-Fi NAME :    {essid}{RESET}")
-        print(f"{GREEN}     [✓] PASSWORD   :{RESET}{CYAN}          {password}{RESET}")
+# Create stored.csv with header
+if not os.path.exists(csv_file):
+    with open(csv_file, "w", encoding="utf-8", newline="") as f:
+        writer = csv.writer(
+            f,
+            delimiter=";",
+            quoting=csv.QUOTE_ALL
+        )
+        writer.writerow([
+            "Date",
+            "BSSID",
+            "ESSID",
+            "WPS PIN",
+            "WPA PSK"
+        ])
 
-    if not found:
-        print(f"{GREEN}[!] No stored Wi-Fi data found.{RESET}")
+# =========================================================
+# READ SAVED DATA
+# =========================================================
+
+found = False
+
+try:
+    with open(
+        csv_file,
+        "r",
+        encoding="utf-8-sig",
+        newline=""
+    ) as f:
+
+        reader = csv.DictReader(
+            f,
+            delimiter=";"
+        )
+
+        for i, row in enumerate(reader, 1):
+
+            essid = (row.get("ESSID") or "").strip()
+            password = (row.get("WPA PSK") or "").strip()
+
+            # Skip completely empty rows
+            if not essid and not password:
+                continue
+
+            found = True
+
+            # Same alignment logic as __credentialPrint()
+            width = max(
+                len(essid),
+                len(password)
+            )
+
+            print(
+                f"{CYAN} [{i}]{RESET} "
+                f"{GREEN}[✓] Wi-Fi NAME :{RESET}  "
+                f"{GREEN}{essid:^{width}}{RESET}"
+            )
+
+            print(
+                f"     {GREEN}[✓] PASSWORD   :{RESET}  "
+                f"{CYAN}{password:^{width}}{RESET}"
+            )
+
+            print()
+
+except Exception as e:
+    print(
+        f"{YELLOW}[!] Unable to read stored Wi-Fi data.{RESET}"
+    )
+
+# =========================================================
+# NO DATA
+# =========================================================
+
+if not found:
+    print(
+        f"{YELLOW}No stored Wi-Fi data found.{RESET}"
+    )
+
 PY
-
-# Clear the prompt for this command's final output
-printf "\033[1A\033[2K"
 EOF
 
 chmod +x "$ONE_BIN"
 
 
-echo -e "\n${GREEN}[✓] Setup complete successfully!${RESET}"
-echo -e "${YELLOW}[✓] You don't even need to restart Termux.${RESET}"
+# =========================================================
+# FINAL
+# =========================================================
 
-echo -e "\n\033[1;31m  [!] IMPORTANT — If '0' shows:\033[0m"
-
-echo -e "\033[1;32m  [✓] All done! Type '0' to get started.${RESET}"
+echo -e ""
+echo -e "\033[1;32m  [✓] Type '0' to get Started.${RESET}"
+echo -e "\033[1;32m  [✓] Type '1' to view Creacked list.${RESET}"
+echo -e ""
