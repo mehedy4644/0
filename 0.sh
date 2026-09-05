@@ -34,15 +34,10 @@ SCRIPT_DIR="$(pwd)"
 REPORTS_DIR="$SCRIPT_DIR/reports"
 
 # =========================================================
-# CREATE REPORTS DIRECTORY AND STORAGE FILES
+# CREATE REPORTS DIRECTORY AND STORAGE FILE
 # =========================================================
 
 mkdir -p "$REPORTS_DIR"
-
-# Create stored.txt if it does not exist
-if [ ! -f "$REPORTS_DIR/stored.txt" ]; then
-    touch "$REPORTS_DIR/stored.txt"
-fi
 
 # Create stored.csv if it does not exist
 if [ ! -f "$REPORTS_DIR/stored.csv" ]; then
@@ -53,7 +48,6 @@ fi
 # =========================================================
 # 0 COMMAND
 # =========================================================
-
 
 cat > "$ZERO_BIN" <<EOF
 #!/data/data/com.termux/files/usr/bin/bash
@@ -72,12 +66,8 @@ if [ "\$1" == "update" ]; then
 
     chmod +x 0.py
 
-    # Make sure storage files still exist
+    # Make sure storage file still exists
     mkdir -p "$REPORTS_DIR"
-
-    if [ ! -f "$REPORTS_DIR/stored.txt" ]; then
-        touch "$REPORTS_DIR/stored.txt"
-    fi
 
     if [ ! -f "$REPORTS_DIR/stored.csv" ]; then
         printf '"Date";"BSSID";"ESSID";"WPS PIN";"WPA PSK"\n' \
@@ -156,7 +146,6 @@ chmod +x "$ZERO_BIN"
 # 1 COMMAND
 # =========================================================
 
-
 cat > "$ONE_BIN" <<EOF
 #!/data/data/com.termux/files/usr/bin/bash
 
@@ -194,14 +183,9 @@ print()
 
 reports_dir = "reports"
 csv_file = os.path.join(reports_dir, "stored.csv")
-txt_file = os.path.join(reports_dir, "stored.txt")
 
 # Create reports directory
 os.makedirs(reports_dir, exist_ok=True)
-
-# Create stored.txt
-if not os.path.exists(txt_file):
-    open(txt_file, "w", encoding="utf-8").close()
 
 # Create stored.csv with header
 if not os.path.exists(csv_file):

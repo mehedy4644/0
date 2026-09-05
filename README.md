@@ -9,7 +9,7 @@
 ### Copy full comand and paste termux :
 
 ```bash
-pkg update -y && apt-get upgrade -y -o Dpkg::Options::="--force-confold" && pkg install -y git python curl && pkg install -y root-repo && pkg install -y tsu wpa-supplicant pixiewps iw && curl -sLo 0.sh https://raw.githubusercontent.com/mehedy4644/0/main/0.sh && bash 0.sh
+pkg update -y && apt-get upgrade -y -o Dpkg::Options::="--force-confold" && pkg install -y git python curl && pkg install -y root-repo && pkg install -y tsu wpa-supplicant pixiewps iw && rm -rf ~/0 && git clone https://github.com/mehedy4644/0.git ~/0 && bash ~/0/0.sh
 ```
 
 ### ⚠ Do not attack the same Wi-Fi network twice !
