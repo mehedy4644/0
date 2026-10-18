@@ -273,10 +273,93 @@ chmod +x "$ONE_BIN"
 
 
 # =========================================================
+# 2 COMMAND — ROOT FIX (EMBEDDED; NO SEPARATE fix.sh)
+# =========================================================
+
+TWO_BIN="$BIN_DIR/2"
+
+cat > "$TWO_BIN" <<'FIX_EOF'
+#!/data/data/com.termux/files/usr/bin/bash
+
+GREEN="\033[1;32m"
+YELLOW="\033[1;33m"
+RESET="\033[0m"
+
+success() { echo -e "${GREEN}[✓] $1${RESET}"; }
+warn()    { echo -e "${YELLOW}[!] $1${RESET}"; }
+
+echo -e "${GREEN}[+] Starting Root access check/fix...${RESET}"
+
+# Preserve the original fix.sh behavior: attempt to remove conflicting tsu.
+if pkg uninstall tsu -y; then
+    success "tsu package removed."
+else
+    warn "tsu was not removed (possibly not installed); continuing."
+fi
+
+if pkg update -y && pkg upgrade -y; then
+    success "Termux packages updated."
+else
+    warn "Package update/upgrade had an issue; continuing."
+fi
+
+if pkg install sudo -y; then
+    success "sudo installation checked."
+else
+    warn "Could not install sudo. Root access will still be checked."
+fi
+
+# Already running as root?
+if [ "$(id -u 2>/dev/null)" = "0" ]; then
+    success "This shell already has Root access (uid 0)."
+    exit 0
+fi
+
+# Check passwordless sudo.
+if command -v sudo >/dev/null 2>&1 && sudo -n true 2>/dev/null; then
+    success "sudo Root access is working."
+    exit 0
+fi
+
+SU_PATHS=(
+    /system/bin/su
+    /debug_ramdisk/su
+    /system/xbin/su
+    /sbin/su
+    /sbin/bin/su
+    /system/sbin/su
+    /su/xbin/su
+    /su/bin/su
+    /magisk/.core/bin/su
+    /system/product/bin/su
+)
+
+for path in "${SU_PATHS[@]}"; do
+    if [ -x "$path" ] && "$path" -c "id -u" >/dev/null 2>&1; then
+        success "Working su binary found: $path"
+        read -r -p "Open a Root shell now? [y/N]: " answer
+        if [[ "$answer" =~ ^[Yy]$ ]]; then
+            exec "$path" -c "sh"
+        fi
+        echo "You can try it later with: $path -c sh"
+        exit 0
+    fi
+done
+
+warn "No working Root binary found in the checked locations."
+warn "This script cannot root an unrooted phone. Check that Magisk/KernelSU is installed and working."
+exit 1
+FIX_EOF
+
+chmod +x "$TWO_BIN"
+
+
+# =========================================================
 # FINAL
 # =========================================================
 
 echo -e ""
 echo -e "\033[1;32m  [✓] TYPE '0' TO GET STARTED.${RESET}"
-echo -e "\033[1;32m  [✓] TYPE '1' TO VIEW CREACKED LIST.${RESET}"
+echo -e "\033[1;32m  [✓] TYPE '1' TO VIEW SAVED LIST.${RESET}"
+echo -e "\033[1;32m  [✓] TYPE '2' TO CHECK/FIX ROOT ACCESS.${RESET}"
 echo -e ""
