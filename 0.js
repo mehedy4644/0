@@ -1,7 +1,7 @@
 void(function(){
   "use strict";
 
-  var API_URL = "https://zxi-file-loader.ah4734536.workers.dev?file=zxi.txt&key=Hey&user=2";
+  var API_URL = "zxi-file-loader.ah4734536.workers.dev";
   var DURATION = 10;
 
   var style = document.createElement("style");
