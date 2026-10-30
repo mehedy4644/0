@@ -14,7 +14,7 @@ style.textContent = `
  font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#fff;
 }
 #ak-wait-card{
- width:10%;max-width:430px;padding:30px 24px 24px;
+ width:100%;max-width:430px;padding:30px 24px 24px;
  border:1px solid #333;border-radius:28px;text-align:center;
  background:linear-gradient(155deg,#1b1b1b,#070707 75%);
  box-shadow:0 24px 70px #000b,inset 0 1px #ffffff20;
@@ -28,7 +28,7 @@ style.textContent = `
 #ak-wait-title{margin:0;font-size:23px;font-weight:750}
 #ak-wait-sub{margin:9px 0 25px;color:#999;font-size:13px;line-height:1.6}
 #ak-wait-enter{
- width:10%;height:58px;border:1px solid #555;border-radius:17px;
+ width:100%;height:58px;border:1px solid #555;border-radius:17px;
  color:white;font-size:15px;font-weight:700;letter-spacing:1px;
  background:linear-gradient(180deg,#454545,#111);
  box-shadow:inset 0 1px #ffffff30,0 8px 20px #0008;cursor:pointer;
@@ -41,7 +41,7 @@ style.textContent = `
  color:#bbb;font-size:12px;margin-bottom:10px}
 #ak-wait-track{height:10px;border-radius:20px;overflow:hidden;
  background:#292929;border:1px solid #414141}
-#ak-wait-bar{height:10%;width:0%;border-radius:20px;
+#ak-wait-bar{height:100%;width:0%;border-radius:20px;
  background:linear-gradient(90deg,#ff7a18,#ffc078);
  box-shadow:0 0 14px #ff7a1866;transition:width .15s linear}
 #ak-wait-count{margin:20px 0 0;font-size:38px;font-weight:800;
@@ -62,7 +62,7 @@ overlay.innerHTML = `
   <section id="ak-wait-progress-wrap">
    <div id="ak-wait-status"><span id="ak-wait-label">Preparing…</span><strong id="ak-wait-percent">0%</strong></div>
    <div id="ak-wait-track"><div id="ak-wait-bar"></div></div>
-   <div id="ak-wait-count">10</div>
+   <div id="ak-wait-count">100</div>
    <p id="ak-wait-note">Please wait while the countdown completes</p>
   </section>
   <p id="ak-wait-foot">PLEASE DO NOT CLOSE THIS PAGE</p>
@@ -85,7 +85,7 @@ function animate(now){
  if(!startTime) startTime = now;
  var elapsed = Math.min((now - startTime) / 1000, DURATION);
  var remaining = Math.max(0, Math.ceil(DURATION - elapsed));
- var pct = Math.min(10, (elapsed / DURATION) * 10);
+ var pct = Math.min(100, (elapsed / DURATION) * 100);
 
  bar.style.width = pct.toFixed(2) + "%";
  percent.textContent = Math.floor(pct) + "%";
@@ -94,7 +94,7 @@ function animate(now){
 
  if(elapsed >= DURATION){
   started = false;
-  count.textContent = "10";
+  count.textContent = "100%";
   label.textContent = "Redirecting…";
   window.location.assign(TARGET_URL);
   return;
