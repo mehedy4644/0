@@ -28,12 +28,25 @@ void(function(){
   #ak-wait-title{margin:0;font-size:23px;font-weight:750}
   #ak-wait-sub{margin:9px 0 25px;color:#999;font-size:13px;line-height:1.6}
   #ak-wait-enter{
-    width:100%;height:58px;border:1px solid #555;border-radius:17px;
-    color:white;font-size:15px;font-weight:700;letter-spacing:1px;
-    background:linear-gradient(180deg,#454545,#111);
-    box-shadow:inset 0 1px #ffffff30,0 8px 20px #0008;cursor:pointer;
+    position:relative;overflow:hidden;
+    width:100%;height:62px;margin-top:11px;padding:0 18px;
+    border:1px solid #ff7a18;border-radius:22px;
+    color:#fff;font-size:15px;font-weight:700;letter-spacing:.3px;
+    background:linear-gradient(180deg,#ffad62 0%,#ff7a18 28%,#ff4b00 72%,#e63800 100%);
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.42),
+      inset 0 -3px 7px rgba(130,25,0,.45),0 8px 22px rgba(255,82,0,.24);
+    cursor:pointer;
+    transition:transform .12s ease,filter .18s ease,box-shadow .18s ease;
   }
-  #ak-wait-enter:active{transform:scale(.99)}
+  #ak-wait-enter:before{
+    content:'';position:absolute;left:9%;right:9%;top:5px;height:24px;
+    border-radius:18px;
+    background:linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,0));
+    pointer-events:none;
+  }
+  #ak-wait-enter:hover{filter:brightness(1.08)}
+  #ak-wait-enter:active{transform:translateY(1px);filter:brightness(.96)}
+  #ak-wait-enter:disabled{opacity:.72;cursor:default}
   #ak-wait-progress-wrap{display:none;margin-top:25px;text-align:left}
   #ak-wait-status{display:flex;justify-content:space-between;gap:10px;
     color:#bbb;font-size:12px;margin-bottom:10px}
