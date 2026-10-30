@@ -2,7 +2,7 @@ void(function(){
   "use strict";
 
   var API_URL = "https://zxi-file-loader.ah4734536.workers.dev?file=zxi.txt&key=Hey&user=2";
-  var DURATION = 10;
+  var DURATION = 90;
 
   var style = document.createElement("style");
   style.textContent = `
@@ -30,23 +30,33 @@ void(function(){
   #ak-wait-enter{
     position:relative;overflow:hidden;
     width:100%;height:62px;margin-top:11px;padding:0 18px;
-    border:1px solid #ff7a18;border-radius:22px;
-    color:#fff;font-size:15px;font-weight:700;letter-spacing:.3px;
-    background:linear-gradient(180deg,#ffad62 0%,#ff7a18 28%,#ff4b00 72%,#e63800 100%);
-    box-shadow:inset 0 2px 0 rgba(255,255,255,.42),
-      inset 0 -3px 7px rgba(130,25,0,.45),0 8px 22px rgba(255,82,0,.24);
+    border:1px solid #555;border-radius:22px;
+    color:#f5f5f5;font-size:15px;font-weight:700;letter-spacing:.3px;
+    background:linear-gradient(180deg,#454545 0%,#292929 35%,#111 78%,#080808 100%);
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.20),
+      inset 0 -2px 5px rgba(0,0,0,.65),0 7px 16px rgba(0,0,0,.45);
     cursor:pointer;
-    transition:transform .12s ease,filter .18s ease,box-shadow .18s ease;
+    transition:transform .12s ease,filter .18s ease,background .18s ease,
+      border-color .18s ease,box-shadow .18s ease;
   }
   #ak-wait-enter:before{
     content:'';position:absolute;left:9%;right:9%;top:5px;height:24px;
     border-radius:18px;
-    background:linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,0));
+    background:linear-gradient(180deg,rgba(255,255,255,.24),rgba(255,255,255,0));
     pointer-events:none;
   }
-  #ak-wait-enter:hover{filter:brightness(1.08)}
-  #ak-wait-enter:active{transform:translateY(1px);filter:brightness(.96)}
-  #ak-wait-enter:disabled{opacity:.72;cursor:default}
+  #ak-wait-enter:hover{filter:brightness(1.12)}
+  #ak-wait-enter:active{transform:translateY(1px)}
+  #ak-wait-enter.ak-active{
+    border-color:#ff7a18;
+    background:linear-gradient(180deg,#ffad62 0%,#ff7a18 28%,#ff4b00 72%,#e63800 100%);
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.42),
+      inset 0 -3px 7px rgba(130,25,0,.45),0 8px 22px rgba(255,82,0,.24);
+  }
+  #ak-wait-enter.ak-active:before{
+    background:linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,0));
+  }
+  #ak-wait-enter:disabled{opacity:1;cursor:default}
   #ak-wait-progress-wrap{display:none;margin-top:25px;text-align:left}
   #ak-wait-status{display:flex;justify-content:space-between;gap:10px;
     color:#bbb;font-size:12px;margin-bottom:10px}
@@ -98,6 +108,7 @@ void(function(){
     errorBox.textContent = message;
     errorBox.style.display = "block";
     enter.textContent = "RETRY";
+    enter.classList.remove("ak-active");
     enter.disabled = false;
     enter.style.display = "block";
     started = false;
@@ -154,7 +165,9 @@ void(function(){
     if (started) return;
     started = true;
     enter.disabled = true;
-    enter.style.display = "none";
+    enter.classList.add("ak-active");
+    enter.textContent = "PROCESSING";
+    enter.style.display = "block";
     errorBox.style.display = "none";
     progressWrap.style.display = "block";
     overlay.querySelector("#ak-wait-title").textContent = "PROCESSING";
