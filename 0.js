@@ -85,7 +85,7 @@ function animate(now){
  if(!startTime) startTime = now;
  var elapsed = Math.min((now - startTime) / 1000, DURATION);
  var remaining = Math.max(0, Math.ceil(DURATION - elapsed));
- var pct = Math.min(100, (elapsed / DURATION) * 100);
+ var pct = Math.min(10, (elapsed / DURATION) * 10);
 
  bar.style.width = pct.toFixed(2) + "%";
  percent.textContent = Math.floor(pct) + "%";
