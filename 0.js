@@ -53,8 +53,8 @@ void(function(){
   #ak-wait-track{height:10px;border-radius:20px;overflow:hidden;
     background:#292929;border:1px solid #414141}
   #ak-wait-bar{height:100%;width:0%;border-radius:20px;
-    background:linear-gradient(90deg,#ff7a18,#ffc078);
-    box-shadow:0 0 14px #ff7a1866;transition:width .15s linear}
+    background:linear-gradient(90deg,#e63800 0%,#ff7a18 48%,#ffc078 100%);
+    box-shadow:0 0 14px #ff7a1880;transition:width .15s linear}
   #ak-wait-count{margin:20px 0 0;font-size:38px;font-weight:800;
     font-variant-numeric:tabular-nums;letter-spacing:1px}
   #ak-wait-note{margin:8px 0 0;color:#777;font-size:11px}
