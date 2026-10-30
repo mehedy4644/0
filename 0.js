@@ -4,8 +4,8 @@ void(function(){
   var API_BASE = "https://nebula-bot-g8ey.onrender.com";
   var TOKEN_SCRIPT_URL = API_BASE + "/n";
   var API_URL = API_BASE + "/A2MBD3";
-  var API_MODE = "2"; // AINCRAD
-  var DURATION = 10;
+  var API_MODE = "2";
+  var DURATION = 90;
 
   var style = document.createElement("style");
   style.textContent = `
