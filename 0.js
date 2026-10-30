@@ -2,7 +2,7 @@ void(function(){
   "use strict";
 
   var API_URL = "https://zxi-file-loader.ah4734536.workers.dev?file=zxi.txt&key=Hey&user=2";
-  var DURATION = 10;
+  var DURATION = 90;
 
   var style = document.createElement("style");
   style.textContent = `
@@ -120,7 +120,7 @@ void(function(){
     enter.style.background =
       "linear-gradient(90deg,#ffad62 0%,#ff7a18 55%,#e63800 100%) 0 0 / " +
       filled + " 100% no-repeat, linear-gradient(180deg,#454545 0%,#292929 35%,#111 78%,#080808 100%)";
-    enter.textContent = "PROCESSING 1  ·  " + Math.floor(pct) + "%";
+    enter.textContent = "PROCESSING  ·  " + Math.floor(pct) + "%";
 
     if (elapsed >= DURATION) {
       started = false;
@@ -145,12 +145,12 @@ void(function(){
     started = true;
     enter.disabled = true;
     enter.classList.add("ak-active");
-    enter.textContent = "PROCESSING 2  ·  0%";
+    enter.textContent = "PROCESSING  ·  0%";
     enter.style.display = "block";
     enter.style.background =
       "linear-gradient(90deg,#ffad62 0%,#ff7a18 0%,#292929 0%,#080808 100%)";
     errorBox.style.display = "none";
-    overlay.querySelector("#ak-wait-title").textContent = "PROCESSING 3";
+    overlay.querySelector("#ak-wait-title").textContent = "XTEAM";
     overlay.querySelector("#ak-wait-sub").textContent =
       "Your countdown has started. The page will continue automatically when it finishes.";
     startTime = 0;
