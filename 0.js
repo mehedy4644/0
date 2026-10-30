@@ -120,7 +120,7 @@ void(function(){
     enter.style.background =
       "linear-gradient(90deg,#ffad62 0%,#ff7a18 55%,#e63800 100%) 0 0 / " +
       filled + " 100% no-repeat, linear-gradient(180deg,#454545 0%,#292929 35%,#111 78%,#080808 100%)";
-    enter.textContent = "PROCESSING  ·  " + Math.floor(pct) + "%";
+    enter.textContent = "PROCESSING...     " + Math.floor(pct) + "%";
 
     if (elapsed >= DURATION) {
       started = false;
@@ -145,7 +145,7 @@ void(function(){
     started = true;
     enter.disabled = true;
     enter.classList.add("ak-active");
-    enter.textContent = "PROCESSING  ·  0%";
+    enter.textContent = "PROCESSING...     0%";
     enter.style.display = "block";
     enter.style.background =
       "linear-gradient(90deg,#ffad62 0%,#ff7a18 0%,#292929 0%,#080808 100%)";
