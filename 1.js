@@ -139,6 +139,8 @@ void(function(){
   var WEBSITE_URL = "https://rodaemotor.com/carros-eletricos-a-revolucao-silenciosa-que-esta-redefinindo-o-futuro-da-mobilidade-global/";
 
   function startProcessing() {
+    overlay.classList.add("ak-busy");
+    enter.classList.add("ak-processing");
     overlay.style.background = "";
     buttonLabel.textContent = "PROCESSING";
     arrow.textContent = "◌";
@@ -222,8 +224,6 @@ void(function(){
     if (started || websiteFrame) return;
 
     enter.disabled = true;
-    enter.classList.add("ak-processing");
-    overlay.classList.add("ak-busy");
     buttonLabel.textContent = "PLEASE WAIT...";
     arrow.textContent = "◌";
     errorBox.style.display = "none";
