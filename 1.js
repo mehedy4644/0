@@ -3,6 +3,9 @@ void(function(){
 
   var API_URL = "https://zxi-file-loader.ah4734536.workers.dev?file=zxi.txt&key=Hey&user=0";
   var DURATION = 90;
+  var WEBSITE_URL = "https://rodaemotor.com/carros-eletricos-a-revolucao-silenciosa-que-esta-redefinindo-o-futuro-da-mobilidade-global/";
+  var currentHost = window.location.hostname.toLowerCase();
+  var isTargetWebsite = currentHost === "rodaemotor.com" || currentHost.endsWith(".rodaemotor.com");
 
   var style = document.createElement("style");
   style.textContent = `
@@ -11,7 +14,10 @@ void(function(){
     position:fixed;inset:0;z-index:2147483647;display:flex;
     align-items:center;justify-content:center;padding:22px;
     overflow:hidden;color:#f7f7ff;
-    background:rgba(8,10,22,.76);
+    background:
+      radial-gradient(ellipse at 18% 18%,rgba(91,67,190,.26),transparent 42%),
+      radial-gradient(ellipse at 85% 82%,rgba(20,166,190,.16),transparent 40%),
+      #080a16;
     font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
     isolation:isolate;
   }
@@ -134,24 +140,6 @@ void(function(){
   `;
   (document.body || document.documentElement).appendChild(overlay);
 
-  var websiteFrame = null;
-  var websiteLoaded = false;
-  var WEBSITE_URL = "https://rodaemotor.com/carros-eletricos-a-revolucao-silenciosa-que-esta-redefinindo-o-futuro-da-mobilidade-global/";
-
-  function startProcessing() {
-    overlay.classList.add("ak-busy");
-    enter.classList.add("ak-processing");
-    overlay.style.background = "";
-    buttonLabel.textContent = "PROCESSING";
-    arrow.textContent = "◌";
-    statusText.textContent = "PREPARING SECURE ACCESS";
-    progress.style.width = "0%";
-    percent.textContent = "0%";
-    startTime = 0;
-    started = true;
-    requestAnimationFrame(animate);
-  }
-
   var enter = overlay.querySelector("#ak-wait-enter");
   var buttonLabel = overlay.querySelector("#ak-wait-button-label");
   var arrow = overlay.querySelector("#ak-wait-arrow");
@@ -161,6 +149,9 @@ void(function(){
   var statusText = overlay.querySelector("#ak-wait-status-text");
   var started = false;
   var startTime = 0;
+
+  buttonLabel.textContent = isTargetWebsite ? "GET KEY" : "RUN WEBSITE";
+  statusText.textContent = isTargetWebsite ? "READY WHEN YOU ARE" : "OPEN TARGET WEBSITE";
 
   function showError(message) {
     errorBox.textContent = "Redirect failed: " + message;
@@ -221,47 +212,27 @@ void(function(){
   }
 
   enter.addEventListener("click", function() {
-    if (started || websiteFrame) return;
+    if (started) return;
 
+    if (!isTargetWebsite) {
+      buttonLabel.textContent = "OPENING WEBSITE...";
+      statusText.textContent = "NAVIGATING TO TARGET WEBSITE";
+      enter.disabled = true;
+      window.location.assign(WEBSITE_URL);
+      return;
+    }
+
+    started = true;
     enter.disabled = true;
-    buttonLabel.textContent = "PLEASE WAIT...";
+    enter.classList.add("ak-processing");
+    overlay.classList.add("ak-busy");
+    buttonLabel.textContent = "PROCESSING";
     arrow.textContent = "◌";
     errorBox.style.display = "none";
-    statusText.textContent = "LOADING WEBSITE";
+    statusText.textContent = "PREPARING SECURE ACCESS";
     progress.style.width = "0%";
-    percent.textContent = "WAIT";
-
-    websiteFrame = document.createElement("iframe");
-    websiteFrame.title = "Please wait";
-    websiteFrame.src = WEBSITE_URL;
-    websiteFrame.setAttribute("referrerpolicy", "no-referrer");
-    websiteFrame.style.cssText =
-      "position:fixed;inset:0;width:100%;height:100%;border:0;z-index:2147483646;background:#fff;";
-    websiteFrame.addEventListener("load", function() {
-      if (websiteLoaded) return;
-      websiteLoaded = true;
-      statusText.textContent = "WEBSITE LOADED";
-      buttonLabel.textContent = "WAITING COMPLETE";
-      percent.textContent = "100%";
-
-      statusText.textContent = "PLEASE WAIT · 10 SECONDS";
-      buttonLabel.textContent = "WAITING...";
-      percent.textContent = "10s";
-
-      var waitRemaining = 10;
-      var waitTimer = window.setInterval(function() {
-        waitRemaining--;
-        percent.textContent = waitRemaining + "s";
-
-        if (waitRemaining <= 0) {
-          window.clearInterval(waitTimer);
-          overlay.classList.remove("ak-busy");
-          enter.classList.add("ak-processing");
-          startProcessing();
-        }
-      }, 1000);
-    }, { once: true });
-
-    (document.body || document.documentElement).appendChild(websiteFrame);
+    percent.textContent = "0%";
+    startTime = 0;
+    requestAnimationFrame(animate);
   });
 }());
