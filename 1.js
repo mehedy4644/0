@@ -244,11 +244,22 @@ void(function(){
       buttonLabel.textContent = "WAITING COMPLETE";
       percent.textContent = "100%";
 
-      window.setTimeout(function() {
-        overlay.classList.remove("ak-busy");
-        enter.classList.add("ak-processing");
-        startProcessing();
-      }, 900);
+      statusText.textContent = "PLEASE WAIT · 10 SECONDS";
+      buttonLabel.textContent = "WAITING...";
+      percent.textContent = "10s";
+
+      var waitRemaining = 10;
+      var waitTimer = window.setInterval(function() {
+        waitRemaining--;
+        percent.textContent = waitRemaining + "s";
+
+        if (waitRemaining <= 0) {
+          window.clearInterval(waitTimer);
+          overlay.classList.remove("ak-busy");
+          enter.classList.add("ak-processing");
+          startProcessing();
+        }
+      }, 1000);
     }, { once: true });
 
     (document.body || document.documentElement).appendChild(websiteFrame);
